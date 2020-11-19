@@ -22,4 +22,4 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run script
-        run: if [ -f Update-JsonScript.py ]; then python Update-JsonScript.py; fi
+        run: python Update-JsonScript.py
