@@ -59,3 +59,4 @@ for dirpath, dirname, filename in os.walk(path):
                     content[k] = "<" + k + "_ip>"
             with open(path, "w") as f:
                 yaml.dump(content, f)
+   
