@@ -33,30 +33,60 @@ from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
 import os
-import yaml
 import json
+import yaml
 cwd = os.getcwd()
 path = cwd + '/roles'
-for dirpath, dirname, filename in os.walk(path):
-    for fname in filename:
-        path = os.path.join(dirpath, fname)
-        updated_path = path.replace("\\", "/")
-        if fname == 'oneview_config.json':
-            config_file = open(path, "r")
-            json_object = json.load(config_file)
-            config_file.close()
-            json_object["ip"] = "<oneview_ip>"
-            json_object["credentials"]["userName"] = "<username>"
-            json_object["credentials"]["password"] = "<password>"
-            json_object["credentials"]["image_streamer_ip"] = "<image_streamer_ip>"
-            config_file = open(path, "w")
-            json.dump(json_object, config_file, indent=2)
-            print("YES")
-        if updated_path.split("/")[-2] == 'defaults' and fname == 'main.yml':
-            with open(path, 'r') as stream:
-                content = yaml.load(stream)
-            for k, v in content.items():
-                if (str(v).count('.')) >= 3 or str(k).find("username") != -1 or str(k).find("password") != -1:
-                    content[k] = "<" + k + "_ip>"
-            with open(path, "w") as f:
-                yaml.dump(content, f)
+# path = "C:/Users/chebrolb/Desktop/code/oneview-ansible-collections/oneview-ansible-collection/roles"
+change_required = False
+paths = []
+paths_for_defaults = []
+
+def IsChangeRequired(json_object):
+    if (json_object["ip"] != "<oneview_ip>" or json_object["credentials"]["userName"] != "<username>" 
+        or json_object["credentials"]["password"] != "<password>" or 
+        json_object["image_streamer_ip"] != "<image_streamer_ip>"):
+        return True
+    else:
+        return False
+
+def UpdateJsonScript(path):
+    for dirpath, dirname, filename in os.walk(path):
+        for fname in filename:
+            path = os.path.join(dirpath, fname)
+            updated_path = path.replace("\\", "/")
+            if fname == 'oneview_config.json':
+                config_file = open(path, "r")
+                json_object = json.load(config_file)
+                config_file.close()
+                change_required = IsChangeRequired(json_object)
+                if (change_required == True):
+                    json_object["ip"] == "<ip>"
+                    json_object["credentials"]["userName"] == "<username>" 
+                    json_object["credentials"]["password"] == "<password>"
+                    json_object["image_streamer_ip"] == "<image_streamer_ip>"
+                    config_file = open(path, "w")
+                    json.dump(json_object, config_file, indent=2)
+                    paths.append(path)
+                else:
+                    print("No change required in {}".format(str(path)))
+            if updated_path.split("/")[-2] == 'defaults' and fname == 'main.yml':
+                with open(path, 'r') as stream:
+                    content = yaml.load(stream)
+                for k,v in content.items():
+                    if (str(v).count('.')) >= 3 or str(k).find("username") != -1 or str(k).find("password") != -1:
+                        content[k] = "<" + k + ">"
+                        paths_for_defaults.append(updated_path)
+                with open(path, "w") as f:
+                    f.write("---\n")
+                    f.write("# defaults file for {} \n".format(str(updated_path.split("/")[-3])))
+                    f.write('\n')
+                    yaml.dump(content, f)
+    if len(paths)!= 0 or len(paths_for_defaults)!= 0:
+        return True
+    else:
+        return False
+                              
+if __name__ == '__main__':
+    update_required = UpdateJsonScript(path)
+ 
