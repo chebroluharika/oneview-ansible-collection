@@ -51,6 +51,7 @@ for dirpath, dirname, filename in os.walk(path):
             json_object["credentials"]["image_streamer_ip"] = "<image_streamer_ip>"
             config_file = open(path, "w")
             json.dump(json_object, config_file, indent=2)
+            print("YES")
         if updated_path.split("/")[-2] == 'defaults' and fname == 'main.yml':
             with open(path, 'r') as stream:
                 content = yaml.load(stream)
