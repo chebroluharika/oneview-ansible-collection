@@ -51,9 +51,14 @@ clone_dir = 'collections'
 if os.path.exists(clone_dir):
     shutil.rmtree(clone_dir, ignore_errors=True)
 
-repo = git.Repo.clone_from('https://github.com/HewlettPackard/oneview-ansible-collection',
-                           path + os.path.sep + clone_dir)
-os.chdir(path + os.path.sep + clone_dir)
+# repo = git.Repo.clone_from('https://github.com/HewlettPackard/oneview-ansible-collection',
+#                            path + os.path.sep + clone_dir)
+# os.chdir(path + os.path.sep + clone_dir)
+
+repo = git.Repo.init(path + os.path.sep + clone_dir)
+origin = repo.create_remote('origin', 'https://github.com/HewlettPackard/oneview-ansible-collection')
+origin.fetch()
+origin.pull(origin.refs[0].remote_head)
 
 new_branch = repo.create_head(branchName)
 new_branch.checkout()
@@ -105,13 +110,23 @@ def UpdateJsonScript(path):
                               
 if __name__ == '__main__':
     update_required = UpdateJsonScript(path)
-    repo.git.add(A=True)
-    repo.git.commit('-m', 'PR for config changes #pr',
-                    author='chebroluharika@gmail.com') # to commit changes
-    repo.git.push('--set-upstream', 'origin', branchName)
-    repo.close()
-    os.chdir(path) # Navigate to parent directory
-    # Delete ruby directory as cleanup
-    if os.path.exists(clone_dir):
-        shutil.rmtree(clone_dir, ignore_errors=True)
+#     repo.git.add(A=True)
+#     repo.git.commit('-m', 'PR for config changes #pr',
+#                     author='chebroluharika@gmail.com') # to commit changes
+#     repo.git.push('--set-upstream', 'origin', branchName)
+#     repo.close()
+#     os.chdir(path) # Navigate to parent directory
+#     # Delete ruby directory as cleanup
+#     if os.path.exists(clone_dir):
+#         shutil.rmtree(clone_dir, ignore_errors=True)
+        
+    commit_message = 'work in progress'
+     # repo.index.add(u=True)
+    repo.git.add('--all')
+    repo.index.commit(commit_message)
+    origin = repo.remote('origin')
+    origin.push('master')
+    repo.git.add(update=True)
+    print("repo push succesfully")
+
  
