@@ -108,7 +108,7 @@ def UpdateJsonScript(path):
     else:
         print(paths)
         print(paths_for_defaults)
-        return True
+        raise Exception("Sorry, there is sensitive data to take care")
                               
 if __name__ == '__main__':
     update_required = UpdateJsonScript(path)
