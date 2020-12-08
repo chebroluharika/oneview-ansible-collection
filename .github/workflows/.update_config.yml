@@ -31,6 +31,8 @@ jobs:
           pip install future
           pip install PyYAML
           pip install gitpython
+          git config --global user.email "chebroluharika@gmail.com"
+          git config --global user.name "Chebrolu Harika"
 
       # Runs a single command using the runners shell
       - name: Run script
