@@ -1,6 +1,10 @@
-name: CI
+name: Run Sanity Tests
 on:
-- pull_request
+  workflow_run:
+    workflows: ["CI"]
+    branches: [master]
+    types: 
+      - completed
 
 jobs:
   sanity:
@@ -31,20 +35,13 @@ jobs:
           pip install future
           if [ -f test_requirements.txt ]; then pip install -r test_requirements.txt; fi
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install gitpython
 
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
       
-      - name: Run UpdateJson script
-        run: |
-            output=$(python Update-JsonScript.py)
-            echo "::set-output name=changelog::$output"
-        id: step5
- 
       - name: Install ansible_collections.hpe.oneview
         run: ansible-galaxy collection install hpe.oneview -p ../../
-        if: "${{ steps.step5.outputs.changelog }}"
 
       - name: Run sanity tests
         run: ansible-test sanity --docker -v --color --python ${{ matrix.python_version }}
-      
