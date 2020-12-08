@@ -35,3 +35,13 @@ jobs:
         run: |
             output=$(python Update-JsonScript.py)
             echo "::set-output name=changelog::$output"
+        id: test
+
+      - name: set the status              # set the workflow status if command failed
+        if: always()
+        run: |
+          if ${{ steps.test.changelog =='True' }}; then
+             echo fine
+          else
+             exit 1
+          fi
