@@ -41,13 +41,3 @@ jobs:
             output=$(python Update-JsonScript.py)
             echo "::set-output name=changelog::$output"
         id: step5
- 
-      - name: Install ansible_collections.hpe.oneview
-        run: ansible-galaxy collection install hpe.oneview -p ../../
-        continue-on-error: false
-        if: "${{ steps.step5.outputs.changelog }}"
-
-      - name: Run sanity tests
-        run: ansible-test sanity --docker -v --color --python ${{ matrix.python_version }}
-        continue-on-error: false
-        if: "${{ steps.step5.outputs.changelog }}"
