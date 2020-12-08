@@ -45,23 +45,23 @@ paths = []
 paths_for_defaults = []
 branchName = 'update'
 
-path = os.getcwd()
-clone_dir = 'collections'
-# Deleting the clone directory if exists
-if os.path.exists(clone_dir):
-    shutil.rmtree(clone_dir, ignore_errors=True)
+# path = os.getcwd()
+# clone_dir = 'collections'
+# # Deleting the clone directory if exists
+# if os.path.exists(clone_dir):
+#     shutil.rmtree(clone_dir, ignore_errors=True)
 
 # repo = git.Repo.clone_from('https://github.com/HewlettPackard/oneview-ansible-collection',
 #                            path + os.path.sep + clone_dir)
 # os.chdir(path + os.path.sep + clone_dir)
 
-repo = git.Repo.init(path + os.path.sep + clone_dir)
-origin = repo.create_remote('origin', 'https://github.com/HewlettPackard/oneview-ansible-collection')
-origin.fetch()
-origin.pull(origin.refs[0].remote_head)
+# repo = git.Repo.init(path + os.path.sep + clone_dir)
+# origin = repo.create_remote('origin', 'https://github.com/HewlettPackard/oneview-ansible-collection')
+# origin.fetch()
+# origin.pull(origin.refs[0].remote_head)
 
-new_branch = repo.create_head(branchName)
-new_branch.checkout()
+# new_branch = repo.create_head(branchName)
+# new_branch.checkout()
 
 def IsChangeRequired(json_object):
     if (json_object["ip"] != "<oneview_ip>" or json_object["credentials"]["userName"] != "<username>" 
@@ -120,13 +120,13 @@ if __name__ == '__main__':
 #     if os.path.exists(clone_dir):
 #         shutil.rmtree(clone_dir, ignore_errors=True)
         
-    commit_message = 'work in progress'
-     # repo.index.add(u=True)
-    repo.git.add('--all')
-    repo.index.commit(commit_message)
-    origin = repo.remote('origin')
-    origin.push('master')
-    repo.git.add(update=True)
-    print("repo push succesfully")
+#     commit_message = 'work in progress'
+#      # repo.index.add(u=True)
+#     repo.git.add('--all')
+#     repo.index.commit(commit_message)
+#     origin = repo.remote('origin')
+#     origin.push('master')
+#     repo.git.add(update=True)
+#     print("repo push succesfully")
 
  
