@@ -35,8 +35,7 @@ __metaclass__ = type
 import os
 import json
 import yaml
-import git
-import shutil
+import sys
 cwd = os.getcwd()
 path = cwd + '/roles'
 # path = "C:/Users/chebrolb/Desktop/code/oneview-ansible-collections/oneview-ansible-collection/roles"
