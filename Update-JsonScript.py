@@ -62,6 +62,7 @@ branchName = 'update'
 # new_branch = repo.create_head(branchName)
 # new_branch.checkout()
 
+
 def IsChangeRequired(json_object):
     if (json_object["ip"] != "<oneview_ip>" or json_object["credentials"]["userName"] != "<username>" 
         or json_object["credentials"]["password"] != "<password>" or 
