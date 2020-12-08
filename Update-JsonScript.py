@@ -106,6 +106,8 @@ def UpdateJsonScript(path):
     if len(paths)!= 0 or len(paths_for_defaults)!= 0:
         return False
     else:
+        print(paths)
+        print(paths_for_defaults)
         return True
                               
 if __name__ == '__main__':
