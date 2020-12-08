@@ -51,7 +51,7 @@ clone_dir = 'collections'
 if os.path.exists(clone_dir):
     shutil.rmtree(clone_dir, ignore_errors=True)
 
-repo = git.Repo.clone_from('https://github.com/HewlettPackard/oneview-ansible-collections',
+repo = git.Repo.clone_from('https://github.com/HewlettPackard/oneview-ansible-collection',
                            path + os.path.sep + clone_dir)
 os.chdir(path + os.path.sep + clone_dir)
 
