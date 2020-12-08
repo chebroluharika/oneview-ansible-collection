@@ -4,9 +4,7 @@ name: CI
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
-on:
-  push:
-    branches: [ master ]
+on: [push]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -31,9 +29,9 @@ jobs:
           pip install future
           pip install PyYAML
           pip install gitpython
-          git config --global user.email "chebroluharika@gmail.com"
-          git config --global user.name "Chebrolu Harika"
 
       # Runs a single command using the runners shell
-      - name: Run script
-        run: python Update-JsonScript.py
+      - name: Run UpdateJson script
+        run: |
+            output=$(python Update-JsonScript.py)
+            echo "::set-output name=changelog::$output"
