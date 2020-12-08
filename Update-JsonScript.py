@@ -35,12 +35,25 @@ __metaclass__ = type
 import os
 import json
 import yaml
+import git
+import shutil
 cwd = os.getcwd()
 path = cwd + '/roles'
 # path = "C:/Users/chebrolb/Desktop/code/oneview-ansible-collections/oneview-ansible-collection/roles"
 change_required = False
 paths = []
 paths_for_defaults = []
+branchName = 'update'
+
+path = os.getcwd()
+clone_dir = 'collections'
+# Deleting the clone directory if exists
+if os.path.exists(clone_dir):
+    shutil.rmtree(clone_dir, ignore_errors=True)
+
+repo = git.Repo.clone_from('https://github.com/HewlettPackard/oneview-ansible-collections',
+                           path + os.path.sep + clone_dir)
+os.chdir(path + os.path.sep + clone_dir)
 
 def IsChangeRequired(json_object):
     if (json_object["ip"] != "<oneview_ip>" or json_object["credentials"]["userName"] != "<username>" 
@@ -89,4 +102,13 @@ def UpdateJsonScript(path):
                               
 if __name__ == '__main__':
     update_required = UpdateJsonScript(path)
+    repo.git.add(A=True)
+    repo.git.commit('-m', 'PR for config changes #pr',
+                    author='chebroluharika@gmail.com') # to commit changes
+    repo.git.push('--set-upstream', 'origin', branchName)
+    repo.close()
+    os.chdir(path) # Navigate to parent directory
+    # Delete ruby directory as cleanup
+    if os.path.exists(clone_dir):
+        shutil.rmtree(clone_dir, ignore_errors=True)
  
