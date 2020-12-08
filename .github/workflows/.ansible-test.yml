@@ -41,10 +41,6 @@ jobs:
             output=$(python Update-JsonScript.py)
             echo "::set-output name=changelog::$output"
         id: step5
-      
-      - name: Exit job
-        run: exit 1
-        if: "${{ steps.step5.outputs.changelog }}"
  
       - name: Install ansible_collections.hpe.oneview
         run: ansible-galaxy collection install hpe.oneview -p ../../
