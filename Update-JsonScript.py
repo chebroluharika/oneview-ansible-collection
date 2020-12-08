@@ -55,6 +55,9 @@ repo = git.Repo.clone_from('https://github.com/HewlettPackard/oneview-ansible-co
                            path + os.path.sep + clone_dir)
 os.chdir(path + os.path.sep + clone_dir)
 
+new_branch = repo.create_head(branchName)
+new_branch.checkout()
+
 def IsChangeRequired(json_object):
     if (json_object["ip"] != "<oneview_ip>" or json_object["credentials"]["userName"] != "<username>" 
         or json_object["credentials"]["password"] != "<password>" or 
