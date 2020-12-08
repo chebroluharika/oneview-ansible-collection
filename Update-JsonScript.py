@@ -104,11 +104,11 @@ def UpdateJsonScript(path):
                     f.write('\n')
                     yaml.dump(content, f)
     if len(paths)!= 0 or len(paths_for_defaults)!= 0:
-        return False
-    else:
         print(paths)
         print(paths_for_defaults)
         sys.exit()
+    else:
+        return True
                               
 if __name__ == '__main__':
     update_required = UpdateJsonScript(path)
